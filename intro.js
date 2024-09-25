@@ -29,7 +29,7 @@ const undirGraph = {
   b: ['a', 'c', 'e'],
   c: ['b', 'f'],
   d: ['a', 'e', 'g'],
-  e: ['b', 'd', 'f', 'g'],
+  e: ['b', 'd', 'f', 'h'],
   f: ['c', 'e', 'i'],
   g: ['d', 'h'],
   h: ['e', 'g', 'i'],
@@ -41,19 +41,47 @@ const undirGraph = {
 // Depth First Traversal
 // uses a stack FILO
 
-const stack = ['a'];
-while(stack.length > 0){
-  const curr = stack.pop();
-  // console.log(curr);
-  stack.push(...dirGraph[curr]);
-}
+function depthFirstPrint(graph, src){
+  const stack = [src];
+  const visited = new Set();
+
+  while(stack.length > 0){
+    const curr = stack.pop();
+    visited.add(curr);
+
+    console.log(`(${curr})`);
+
+    graph[curr].forEach(node => {
+      if(!visited.has(node) && !stack.includes(node)) stack.push(node);
+    });
+
+  }
+
+  console.log('Depth first search complete!');
+};
 
 // Breadth First Traversal
 // uses a queue FIFO
-const queue = ['a'];
+function breadthFirstPrint(graph, src){
+  const queue = [src];
+  const visited = new Set();
 
-while(queue.length > 0){
-  const curr = queue.shift();
-  console.log(curr);
-  queue.push(...dirGraph[curr]);
-}
+  while(queue.length > 0){
+    let curr = queue.shift();
+    visited.add(curr);
+    console.log(`(${curr})`);
+
+    graph[curr].forEach(node => {
+      if(!visited.has(node) && !queue.includes(node)) queue.push(node);
+    });
+
+  }
+
+  console.log('Breadth first search complete!');
+};
+
+// depthFirstPrint(dirGraph, 'a');
+// depthFirstPrint(undirGraph, 'a');
+
+breadthFirstPrint(dirGraph, 'a');
+breadthFirstPrint(undirGraph, 'a');
